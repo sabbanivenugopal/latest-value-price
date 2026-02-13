@@ -1,0 +1,70 @@
+package com.spglobal.priceservice;
+
+import java.time.Instant;
+import java.util.Objects;
+
+/**
+ * Represents a price record for a financial instrument.
+ * 
+ * This class is immutable and thread-safe, designed to be used in concurrent environments.
+ * The price is uniquely identified by the instrument ID and timestamp.
+ */
+public class Price {
+    private final String id;
+    private final Instant asOf;
+    private final PricePayload payload;
+
+    /**
+     * Constructs a new Price record.
+     *
+     * @param id the instrument identifier (non-null, non-empty)
+     * @param asOf the timestamp when the price was determined (non-null)
+     * @param payload the price data payload (non-null)
+     * @throws NullPointerException if any parameter is null
+     * @throws IllegalArgumentException if id is empty
+     */
+    public Price(String id, Instant asOf, PricePayload payload) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("Instrument ID cannot be null or empty");
+        }
+        this.id = Objects.requireNonNull(id, "ID cannot be null");
+        this.asOf = Objects.requireNonNull(asOf, "asOf timestamp cannot be null");
+        this.payload = Objects.requireNonNull(payload, "Payload cannot be null");
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Instant getAsOf() {
+        return asOf;
+    }
+
+    public PricePayload getPayload() {
+        return payload;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Price price = (Price) o;
+        return Objects.equals(id, price.id) &&
+               Objects.equals(asOf, price.asOf) &&
+               Objects.equals(payload, price.payload);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, asOf, payload);
+    }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+               "id='" + id + '\'' +
+               ", asOf=" + asOf +
+               ", payload=" + payload +
+               '}';
+    }
+}
