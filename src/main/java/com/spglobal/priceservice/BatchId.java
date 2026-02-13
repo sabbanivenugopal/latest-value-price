@@ -1,12 +1,10 @@
-// This class represents a Batch ID in the Price Service.
-
-package com.spglobal.priceservice;
+import java.util.UUID;
 
 public class BatchId {
-    private String id;
+    private final String id;
 
-    public BatchId(String id) {
-        this.id = id;
+    public BatchId() {
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getId() {
@@ -15,8 +13,6 @@ public class BatchId {
 
     @Override
     public String toString() {
-        return "BatchId{" +
-                "id='" + id + '\'' +
-                '}';
+        return "BatchId{" + "id='" + id + '\'' + "}";
     }
 }
